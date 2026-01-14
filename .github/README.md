@@ -21,16 +21,17 @@ This directory contains the GitHub Actions workflows and configurations for the 
 ### 2. Deploy Workflow (`deploy.yml`)
 **Triggers:** Push to main, Manual workflow dispatch
 
-**Purpose:** Builds and deploys the application
+**Purpose:** Builds and deploys the application to GitHub Pages
 
-**Default Deployment:** GitHub Pages
+**Deployment Method:** GitHub Pages with Actions artifacts (modern approach)
 
-**Alternative Deployments (commented out, ready to use):**
-- Vercel: Uncomment and configure `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID` secrets
-- Netlify: Uncomment and configure `NETLIFY_AUTH_TOKEN` and `NETLIFY_SITE_ID` secrets
+**How it works:**
+1. Builds the Vite application
+2. Uploads the `dist` folder as an artifact
+3. Deploys the artifact to GitHub Pages
 
 **Permissions Required:**
-- contents: write
+- contents: read
 - pages: write
 - id-token: write
 
@@ -83,9 +84,8 @@ This directory contains the GitHub Actions workflows and configurations for the 
 
 1. **Enable GitHub Pages** (for deployment):
    - Go to Settings > Pages
-   - Source: Deploy from a branch
-   - Branch: gh-pages
-   - Folder: / (root)
+   - Source: **GitHub Actions** (not "Deploy from a branch")
+   - The deploy workflow will automatically publish to GitHub Pages
 
 2. **Enable Dependabot** (should be automatic):
    - Go to Settings > Security > Dependabot
@@ -146,9 +146,10 @@ Replace `YOUR_USERNAME` with your GitHub username.
 - Review TypeScript errors in the type check step
 
 ### Deployment Failures
-- Ensure GitHub Pages is enabled
-- Check repository permissions for workflows
-- Verify build artifacts are generated correctly
+- Ensure GitHub Pages source is set to "GitHub Actions" in Settings > Pages
+- Check that the workflow has proper permissions (pages: write, id-token: write)
+- Verify build artifacts are generated correctly in the Actions tab
+- Check if there's a `base` path configured in vite.config.ts matching your repo name
 
 ### Security Scan Failures
 - Review npm audit output for vulnerable dependencies

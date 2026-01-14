@@ -4,6 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
 
 export default defineConfig({
+  base: '/random-wheel/',
   plugins: [
     react(),
     VitePWA({
@@ -23,8 +24,8 @@ export default defineConfig({
         background_color: '#ffffff',
         display: 'standalone',
         orientation: 'portrait',
-        scope: '/',
-        start_url: '/',
+        scope: '/random-wheel/',
+        start_url: '/random-wheel/',
         categories: ['entertainment', 'utilities', 'games'],
         icons: [
           {
