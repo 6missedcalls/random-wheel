@@ -47,7 +47,7 @@ export function Header({ className }: HeaderProps) {
             <span className="text-primary-foreground font-bold text-sm">W</span>
           </div>
           <h1 className="font-bold text-lg hidden sm:block">
-            Random Wheel
+            The Wheel of Misfortune
           </h1>
         </div>
 

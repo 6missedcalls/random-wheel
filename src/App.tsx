@@ -85,7 +85,7 @@ function App() {
       {/* Footer */}
       <footer className="border-t py-4 text-center text-sm text-muted-foreground">
         <p>
-          Random Wheel - A free, offline-first spinning wheel
+          The Wheel of Misfortune - A free, offline-first spinning wheel
         </p>
       </footer>
     </div>

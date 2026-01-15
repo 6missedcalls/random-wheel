@@ -1,6 +1,6 @@
 # GitHub Actions CI/CD Configuration
 
-This directory contains the GitHub Actions workflows and configurations for the Random Wheel PWA.
+This directory contains the GitHub Actions workflows and configurations for The Wheel of Misfortune PWA.
 
 ## Workflows
 
