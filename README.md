@@ -1,6 +1,6 @@
-# Random Wheel
+# The Wheel of Misfortune
 
-A customizable spinning wheel PWA for random decision making.
+A customizable spinning wheel PWA for dolling out justice.
 
 ## Features
 

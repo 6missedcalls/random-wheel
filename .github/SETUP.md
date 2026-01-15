@@ -1,6 +1,6 @@
 # CI/CD Setup Guide
 
-This guide will help you get the GitHub Actions workflows up and running for the Random Wheel PWA.
+This guide will help you get the GitHub Actions workflows up and running for The Wheel of Misfortune PWA.
 
 ## Quick Start
 
