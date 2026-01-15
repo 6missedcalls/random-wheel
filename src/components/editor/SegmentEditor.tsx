@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ColorPicker } from './ColorPicker';
+import { IconPicker, AVAILABLE_ICONS } from './IconPicker';
 import { WeightSlider } from './WeightSlider';
 import { useTotalWeight } from '@/store/wheelStore';
 import type { Segment } from '@/types';
@@ -37,6 +38,7 @@ export function SegmentEditor({
   const [color, setColor] = useState('#FF6B6B');
   const [weight, setWeight] = useState(1);
   const [description, setDescription] = useState('');
+  const [icon, setIcon] = useState<string | undefined>(undefined);
 
   // Update form when segment changes
   useEffect(() => {
@@ -45,6 +47,7 @@ export function SegmentEditor({
       setColor(segment.color);
       setWeight(segment.weight);
       setDescription(segment.description || '');
+      setIcon(segment.icon);
     }
   }, [segment]);
 
@@ -57,6 +60,7 @@ export function SegmentEditor({
       color,
       weight,
       description: description.trim() || undefined,
+      icon,
     });
     onClose();
   };
@@ -121,6 +125,9 @@ export function SegmentEditor({
               <ColorPicker color={color} onChange={setColor} />
             </div>
 
+            {/* Icon */}
+            <IconPicker value={icon} onChange={setIcon} />
+
             {/* Weight */}
             <WeightSlider
               value={weight}
@@ -132,9 +139,13 @@ export function SegmentEditor({
             <div className="space-y-2">
               <Label>Preview</Label>
               <div
-                className="h-16 rounded-lg flex items-center justify-center text-white font-medium shadow-inner"
+                className="h-16 rounded-lg flex items-center justify-center gap-2 text-white font-medium shadow-inner"
                 style={{ backgroundColor: color }}
               >
+                {icon && AVAILABLE_ICONS[icon] && (() => {
+                  const IconComponent = AVAILABLE_ICONS[icon];
+                  return <IconComponent className="h-6 w-6" />;
+                })()}
                 {label || 'Preview'}
               </div>
             </div>

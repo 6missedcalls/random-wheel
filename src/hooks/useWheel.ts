@@ -2,6 +2,7 @@ import { useRef, useEffect, useCallback, useState } from 'react';
 import { Wheel } from 'spin-wheel';
 import type { Segment, WheelConfig } from '@/types';
 import { getWeightedRandomIndex } from '@/lib/utils';
+import { loadIconImage, isValidIcon } from '@/lib/iconUtils';
 
 interface UseWheelOptions {
   segments: Segment[];
@@ -29,6 +30,7 @@ export function useWheel({
   const containerRef = useRef<HTMLDivElement>(null);
   const wheelRef = useRef<Wheel | null>(null);
   const [isReady, setIsReady] = useState(false);
+  const [loadedIcons, setLoadedIcons] = useState<Map<string, HTMLImageElement>>(new Map());
   const segmentsRef = useRef(segments);
 
   // Keep refs updated for callbacks (avoids re-initializing wheel on callback changes)
@@ -48,13 +50,64 @@ export function useWheel({
     onSegmentChangeRef.current = onSegmentChange;
   }, [onSpinStart, onSpinEnd, onSegmentChange]);
 
+  // Load icons for segments that have them
+  useEffect(() => {
+    const iconsToLoad = segments
+      .filter(s => s.icon && isValidIcon(s.icon))
+      .map(s => ({ id: s.id, icon: s.icon!, color: '#ffffff' }));
+
+    if (iconsToLoad.length === 0) {
+      setLoadedIcons(new Map());
+      return;
+    }
+
+    const loadIcons = async () => {
+      const newIconMap = new Map<string, HTMLImageElement>();
+      await Promise.all(
+        iconsToLoad.map(async ({ id, icon, color }) => {
+          try {
+            const img = await loadIconImage(icon, color, 48);
+            newIconMap.set(id, img);
+          } catch (e) {
+            console.warn(`Failed to load icon ${icon}:`, e);
+          }
+        })
+      );
+      setLoadedIcons(newIconMap);
+    };
+
+    loadIcons();
+  }, [segments]);
+
   // Convert segments to spin-wheel format
-  const getItems = useCallback(() => segments.map((segment) => ({
-    label: config.showLabels ? segment.label : '',
-    backgroundColor: segment.color,
-    labelColor: segment.textColor || config.textColor,
-    weight: segment.weight,
-  })), [segments, config.textColor, config.showLabels]);
+  const getItems = useCallback(() => {
+    const segmentCount = segments.length;
+    const anglePerSegment = 360 / segmentCount;
+
+    return segments.map((segment, index) => {
+      const item: Record<string, unknown> = {
+        label: config.showLabels ? segment.label : '',
+        backgroundColor: segment.color,
+        labelColor: segment.textColor || config.textColor,
+        weight: segment.weight,
+      };
+
+      // Add icon image if available
+      const iconImage = loadedIcons.get(segment.id);
+      if (iconImage) {
+        item.image = iconImage;
+        item.imageRadius = 0.55;
+        item.imageScale = 0.25;
+        // Calculate rotation to make icon face outward (perpendicular to radius)
+        // Each segment is centered at its midpoint angle
+        const segmentMidAngle = index * anglePerSegment + anglePerSegment / 2;
+        // Rotate icon to face outward (add 90 degrees so icon points away from center)
+        item.imageRotation = segmentMidAngle + 90;
+      }
+
+      return item;
+    });
+  }, [segments, config.textColor, config.showLabels, loadedIcons]);
 
   // Initialize wheel
   useEffect(() => {
