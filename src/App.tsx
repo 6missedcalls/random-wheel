@@ -66,18 +66,16 @@ function App() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+          className="flex flex-col items-center gap-8 max-w-xl mx-auto"
         >
           {/* Wheel Section */}
-          <div className="lg:col-span-2 flex flex-col items-center">
+          <div className="w-full flex flex-col items-center">
             <WheelContainer />
           </div>
 
           {/* Editor Section */}
-          <div className="lg:col-span-1">
-            <div className="lg:sticky lg:top-20">
-              <SegmentList className="h-[calc(100vh-8rem)] lg:h-[calc(100vh-6rem)]" />
-            </div>
+          <div className="w-full">
+            <SegmentList className="max-h-[400px]" />
           </div>
         </motion.div>
       </main>
