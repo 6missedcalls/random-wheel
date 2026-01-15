@@ -1,4 +1,6 @@
-import { Settings, Download, Moon, Sun, Volume2, VolumeX } from 'lucide-react';
+import { useState } from 'react';
+import { Settings, Download, Moon, Sun, Volume2, VolumeX, FolderOpen } from 'lucide-react';
+import { WheelManager } from '@/components/editor/WheelManager';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
@@ -20,6 +22,7 @@ export function Header({ className }: HeaderProps) {
   const { isInstallable, promptInstall } = usePWAInstall();
   const settings = useSettings();
   const { updateSettings } = useWheelStore();
+  const [isWheelManagerOpen, setIsWheelManagerOpen] = useState(false);
 
   const toggleTheme = () => {
     const newTheme = settings.theme === 'dark' ? 'light' : 'dark';
@@ -53,6 +56,16 @@ export function Header({ className }: HeaderProps) {
 
         {/* Actions */}
         <div className="flex items-center gap-2">
+          {/* Manage Wheels button */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsWheelManagerOpen(true)}
+          >
+            <FolderOpen className="h-4 w-4 mr-1" />
+            <span className="hidden sm:inline">My Wheels</span>
+          </Button>
+
           {/* Install PWA button */}
           {isInstallable && (
             <Button variant="outline" size="sm" onClick={promptInstall}>
@@ -173,6 +186,12 @@ export function Header({ className }: HeaderProps) {
           </Popover>
         </div>
       </div>
+
+      {/* Wheel Manager Dialog */}
+      <WheelManager
+        isOpen={isWheelManagerOpen}
+        onClose={() => setIsWheelManagerOpen(false)}
+      />
     </header>
   );
 }
