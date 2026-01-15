@@ -13,8 +13,9 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ColorPicker } from './ColorPicker';
-import { IconPicker, AVAILABLE_ICONS } from './IconPicker';
+import { IconPicker } from './IconPicker';
 import { WeightSlider } from './WeightSlider';
+import { AVAILABLE_ICONS } from '@/lib/icons';
 import { useTotalWeight } from '@/store/wheelStore';
 import type { Segment } from '@/types';
 
