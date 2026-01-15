@@ -20,6 +20,9 @@ interface WheelState {
   isSpinning: boolean;
   lastResult: Segment | null;
 
+  // Current wheel name (editable)
+  currentWheelName: string;
+
   // Saved Wheels
   savedWheels: SavedWheel[];
 
@@ -43,6 +46,7 @@ interface WheelActions {
   updateConfig: (config: Partial<WheelConfig>) => void;
   setSpinning: (isSpinning: boolean) => void;
   setResult: (result: Segment | null) => void;
+  setCurrentWheelName: (name: string) => void;
 
   // Saved Wheel Actions
   saveCurrentWheel: (name: string) => string;
@@ -69,6 +73,7 @@ const INITIAL_STATE: WheelState = {
   config: DEFAULT_CONFIG,
   isSpinning: false,
   lastResult: null,
+  currentWheelName: 'My Wheel',
   savedWheels: [],
   settings: DEFAULT_SETTINGS,
   history: [],
@@ -122,6 +127,10 @@ export const useWheelStore = create<WheelStore>()(
         state.lastResult = result;
       }),
 
+      setCurrentWheelName: (name) => set((state) => {
+        state.currentWheelName = name;
+      }),
+
       // Saved Wheel Actions
       saveCurrentWheel: (name) => {
         const id = generateId();
@@ -144,6 +153,7 @@ export const useWheelStore = create<WheelStore>()(
         if (wheel) {
           state.segments = [...wheel.segments];
           state.config = { ...wheel.config };
+          state.currentWheelName = wheel.name;
         }
       }),
 
@@ -204,6 +214,7 @@ export const useWheelStore = create<WheelStore>()(
       partialize: (state) => ({
         segments: state.segments,
         config: state.config,
+        currentWheelName: state.currentWheelName,
         savedWheels: state.savedWheels,
         settings: state.settings,
         history: state.history,
@@ -217,6 +228,7 @@ export const useSegments = () => useWheelStore((state) => state.segments);
 export const useConfig = () => useWheelStore((state) => state.config);
 export const useIsSpinning = () => useWheelStore((state) => state.isSpinning);
 export const useLastResult = () => useWheelStore((state) => state.lastResult);
+export const useCurrentWheelName = () => useWheelStore((state) => state.currentWheelName);
 export const useSavedWheels = () => useWheelStore((state) => state.savedWheels);
 export const useSettings = () => useWheelStore((state) => state.settings);
 export const useHistory = () => useWheelStore((state) => state.history);

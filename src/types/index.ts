@@ -19,6 +19,9 @@ export interface Segment {
 
   /** Optional text color override */
   textColor?: string;
+
+  /** Optional description shown after spin */
+  description?: string;
 }
 
 /**
@@ -45,6 +48,9 @@ export interface WheelConfig {
 
   /** Font size for segment labels */
   fontSize: number;
+
+  /** Whether to show labels on wheel slices */
+  showLabels: boolean;
 }
 
 /**

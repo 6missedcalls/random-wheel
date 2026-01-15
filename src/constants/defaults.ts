@@ -15,6 +15,7 @@ export const DEFAULT_CONFIG: WheelConfig = {
   borderColor: '#1f2937',
   textColor: '#ffffff',
   fontSize: 16,
+  showLabels: false,
 };
 
 export const DEFAULT_SETTINGS: AppSettings = {
