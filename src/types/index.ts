@@ -48,6 +48,9 @@ export interface WheelConfig {
 
   /** Font size for segment labels */
   fontSize: number;
+
+  /** Whether to show labels on wheel slices */
+  showLabels: boolean;
 }
 
 /**

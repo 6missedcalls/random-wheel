@@ -50,11 +50,11 @@ export function useWheel({
 
   // Convert segments to spin-wheel format
   const getItems = useCallback(() => segments.map((segment) => ({
-    label: segment.label,
+    label: config.showLabels ? segment.label : '',
     backgroundColor: segment.color,
     labelColor: segment.textColor || config.textColor,
     weight: segment.weight,
-  })), [segments, config.textColor]);
+  })), [segments, config.textColor, config.showLabels]);
 
   // Initialize wheel
   useEffect(() => {
@@ -115,7 +115,7 @@ export function useWheel({
       }
       setIsReady(false);
     };
-  }, [segments.length, config.borderWidth, config.borderColor, config.fontSize, config.textColor, config.pointerAngle, getItems]);
+  }, [segments.length, config.borderWidth, config.borderColor, config.fontSize, config.textColor, config.pointerAngle, config.showLabels, getItems]);
 
   // Update wheel items when segments change
   useEffect(() => {
