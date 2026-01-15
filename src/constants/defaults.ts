@@ -8,7 +8,7 @@ export const DEFAULT_SEGMENTS: Segment[] = [
 ];
 
 export const DEFAULT_CONFIG: WheelConfig = {
-  spinDuration: 5,
+  spinDuration: 3,
   rotations: 5,
   pointerAngle: 0,
   borderWidth: 2,
