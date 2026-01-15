@@ -39,7 +39,7 @@ export function ResultDisplay({ className }: ResultDisplayProps) {
             exit="exit"
             className={cn('w-full max-w-md mx-auto', className)}
           >
-            <Card className="relative overflow-hidden border-2 shadow-xl">
+            <Card className="relative overflow-hidden border-0 shadow-none bg-transparent">
               <div
                 className="absolute inset-0 opacity-20"
                 style={{ backgroundColor: lastResult.color }}
@@ -80,6 +80,17 @@ export function ResultDisplay({ className }: ResultDisplayProps) {
                   />
                   <h2 className="text-2xl font-bold">{lastResult.label}</h2>
                 </motion.div>
+
+                {lastResult.description && (
+                  <motion.p
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="mt-4 text-base text-muted-foreground"
+                  >
+                    {lastResult.description}
+                  </motion.p>
+                )}
               </CardContent>
             </Card>
           </motion.div>

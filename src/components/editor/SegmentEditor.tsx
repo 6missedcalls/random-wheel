@@ -10,6 +10,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { ColorPicker } from './ColorPicker';
 import { WeightSlider } from './WeightSlider';
 import { useTotalWeight } from '@/store/wheelStore';
@@ -34,6 +35,7 @@ export function SegmentEditor({
   const [label, setLabel] = useState('');
   const [color, setColor] = useState('#FF6B6B');
   const [weight, setWeight] = useState(1);
+  const [description, setDescription] = useState('');
 
   // Update form when segment changes
   useEffect(() => {
@@ -41,6 +43,7 @@ export function SegmentEditor({
       setLabel(segment.label);
       setColor(segment.color);
       setWeight(segment.weight);
+      setDescription(segment.description || '');
     }
   }, [segment]);
 
@@ -52,6 +55,7 @@ export function SegmentEditor({
       label: label.trim(),
       color,
       weight,
+      description: description.trim() || undefined,
     });
     onClose();
   };
@@ -90,6 +94,22 @@ export function SegmentEditor({
             />
             <p className="text-xs text-muted-foreground text-right">
               {label.length}/50 characters
+            </p>
+          </div>
+
+          {/* Description */}
+          <div className="space-y-2">
+            <Label htmlFor="segment-description">Description (shown after spin)</Label>
+            <Textarea
+              id="segment-description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Enter a description to display when this segment wins"
+              maxLength={200}
+              rows={3}
+            />
+            <p className="text-xs text-muted-foreground text-right">
+              {description.length}/200 characters
             </p>
           </div>
 

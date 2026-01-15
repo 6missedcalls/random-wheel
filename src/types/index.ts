@@ -19,6 +19,9 @@ export interface Segment {
 
   /** Optional text color override */
   textColor?: string;
+
+  /** Optional description shown after spin */
+  description?: string;
 }
 
 /**
