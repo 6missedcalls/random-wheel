@@ -108,11 +108,9 @@ export function useWheel({
         item.image = iconImage;
         item.imageRadius = 0.72;
         item.imageScale = 0.25;
-        // Calculate rotation to make icon face outward (perpendicular to radius)
-        // Each segment is centered at its midpoint angle
+        // Calculate rotation so image bottom faces center (top faces outward)
         const segmentMidAngle = index * anglePerSegment + anglePerSegment / 2;
-        // Rotate icon to face outward (add 90 degrees so icon points away from center)
-        item.imageRotation = segmentMidAngle + 90;
+        item.imageRotation = segmentMidAngle;
       }
 
       return item;
