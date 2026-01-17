@@ -106,7 +106,7 @@ export function useWheel({
       const iconImage = loadedIcons.get(segment.id);
       if (iconImage) {
         item.image = iconImage;
-        item.imageRadius = 0.55;
+        item.imageRadius = 0.72;
         item.imageScale = 0.25;
         // Calculate rotation to make icon face outward (perpendicular to radius)
         // Each segment is centered at its midpoint angle
@@ -144,7 +144,7 @@ export function useWheel({
       itemLabelAlign: 'center',
       itemLabelRadius: 0.85,
       itemLabelRadiusMax: 0.35,
-      rotationSpeedMax: 500,
+      rotationSpeedMax: 250,
       rotationResistance: -35,
       pointerAngle: config.pointerAngle,
       isInteractive: false,
