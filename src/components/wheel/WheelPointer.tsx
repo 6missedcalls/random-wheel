@@ -13,9 +13,8 @@ export function WheelPointer({ className }: WheelPointerProps) {
       )}
     >
       <div
-        className="w-0 h-0 border-l-[20px] border-r-[20px] border-t-[40px] border-l-transparent border-r-transparent drop-shadow-lg"
+        className="w-0 h-0 border-l-[20px] border-r-[20px] border-t-[40px] border-l-transparent border-r-transparent border-t-[#FFD700] drop-shadow-lg"
         style={{
-          borderTopColor: '#FFD700',
           filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))',
         }}
       />
