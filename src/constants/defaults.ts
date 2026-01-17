@@ -8,13 +8,14 @@ export const DEFAULT_SEGMENTS: Segment[] = [
 ];
 
 export const DEFAULT_CONFIG: WheelConfig = {
-  spinDuration: 5,
+  spinDuration: 3,
   rotations: 5,
   pointerAngle: 0,
   borderWidth: 2,
   borderColor: '#1f2937',
   textColor: '#ffffff',
   fontSize: 16,
+  showLabels: false,
 };
 
 export const DEFAULT_SETTINGS: AppSettings = {

@@ -4,8 +4,7 @@ import { WheelCanvas, WheelCanvasHandle } from './WheelCanvas';
 import { WheelPointer } from './WheelPointer';
 import { SpinButton } from './SpinButton';
 import { ResultDisplay } from './ResultDisplay';
-import { Confetti } from '@/components/effects/Confetti';
-import { useSettings, useLastResult } from '@/store/wheelStore';
+import { useSettings } from '@/store/wheelStore';
 import { cn } from '@/lib/utils';
 
 interface WheelContainerProps {
@@ -15,7 +14,6 @@ interface WheelContainerProps {
 export function WheelContainer({ className }: WheelContainerProps) {
   const wheelRef = useRef<WheelCanvasHandle>(null);
   const settings = useSettings();
-  const lastResult = useLastResult();
 
   const [playTick] = useSound('/sounds/tick.mp3', {
     volume: settings.volume * 0.3,
@@ -44,11 +42,8 @@ export function WheelContainer({ className }: WheelContainerProps) {
 
   return (
     <div className={cn('flex flex-col items-center gap-6', className)}>
-      {/* Confetti effect */}
-      <Confetti
-        trigger={!!lastResult}
-        colors={lastResult ? [lastResult.color] : undefined}
-      />
+      {/* Result description above wheel */}
+      <ResultDisplay className="min-h-[2rem]" />
 
       {/* Wheel section */}
       <div className="relative w-full max-w-[500px]" data-wheel-area>
@@ -62,9 +57,6 @@ export function WheelContainer({ className }: WheelContainerProps) {
 
       {/* Spin button */}
       <SpinButton onClick={handleSpin} />
-
-      {/* Result display */}
-      <ResultDisplay className="mt-4" />
     </div>
   );
 }
