@@ -110,7 +110,7 @@ export function useWheel({
         item.imageScale = 0.25;
         // Calculate rotation so image bottom faces center (top faces outward)
         const segmentMidAngle = index * anglePerSegment + anglePerSegment / 2;
-        item.imageRotation = segmentMidAngle;
+        item.imageRotation = segmentMidAngle + 180;
       }
 
       return item;
@@ -142,7 +142,7 @@ export function useWheel({
       itemLabelAlign: 'center',
       itemLabelRadius: 0.85,
       itemLabelRadiusMax: 0.35,
-      rotationSpeedMax: 250,
+      rotationSpeedMax: 125,
       rotationResistance: -35,
       pointerAngle: config.pointerAngle,
       isInteractive: false,
