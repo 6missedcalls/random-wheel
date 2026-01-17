@@ -79,7 +79,7 @@ export function SegmentList({ className }: SegmentListProps) {
       </div>
 
       {/* Segment list */}
-      <ScrollArea className="flex-1 py-4">
+      <ScrollArea className="flex-1 min-h-0 py-4">
         {segments.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
             <p>No segments yet.</p>
