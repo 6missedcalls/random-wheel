@@ -50,33 +50,43 @@ export function useWheel({
     onSegmentChangeRef.current = onSegmentChange;
   }, [onSpinStart, onSpinEnd, onSegmentChange]);
 
-  // Load icons for segments that have them
+  // Load images for segments (custom images or icons)
   useEffect(() => {
-    const iconsToLoad = segments
-      .filter(s => s.icon && isValidIcon(s.icon))
-      .map(s => ({ id: s.id, icon: s.icon!, color: '#ffffff' }));
+    const segmentsWithImages = segments.filter(s => s.image || (s.icon && isValidIcon(s.icon)));
 
-    if (iconsToLoad.length === 0) {
+    if (segmentsWithImages.length === 0) {
       setLoadedIcons(new Map());
       return;
     }
 
-    const loadIcons = async () => {
-      const newIconMap = new Map<string, HTMLImageElement>();
+    const loadImages = async () => {
+      const newImageMap = new Map<string, HTMLImageElement>();
       await Promise.all(
-        iconsToLoad.map(async ({ id, icon, color }) => {
+        segmentsWithImages.map(async (segment) => {
           try {
-            const img = await loadIconImage(icon, color, 48);
-            newIconMap.set(id, img);
+            if (segment.image) {
+              // Load custom image from base64 data URL
+              const img = new Image();
+              await new Promise<void>((resolve, reject) => {
+                img.onload = () => resolve();
+                img.onerror = () => reject(new Error('Failed to load image'));
+                img.src = segment.image!;
+              });
+              newImageMap.set(segment.id, img);
+            } else if (segment.icon && isValidIcon(segment.icon)) {
+              // Fall back to Lucide icon
+              const img = await loadIconImage(segment.icon, '#ffffff', 48);
+              newImageMap.set(segment.id, img);
+            }
           } catch (e) {
-            console.warn(`Failed to load icon ${icon}:`, e);
+            console.warn(`Failed to load image for segment ${segment.id}:`, e);
           }
         })
       );
-      setLoadedIcons(newIconMap);
+      setLoadedIcons(newImageMap);
     };
 
-    loadIcons();
+    loadImages();
   }, [segments]);
 
   // Convert segments to spin-wheel format
