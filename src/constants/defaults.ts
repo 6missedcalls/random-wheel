@@ -5,7 +5,7 @@ export const DEFAULT_SEGMENTS: Segment[] = [
   { id: '1', label: "You're drowning in bad habits!", description: 'Wear Water wings for 2 minutes!', color: '#3B82F6', weight: 1, image: DEFAULT_SEGMENT_IMAGES[0] },
   { id: '2', label: 'Go cool off!', description: 'Dunk your head in a bucket of ice water!', color: '#06B6D4', weight: 1, image: DEFAULT_SEGMENT_IMAGES[1] },
   { id: '3', label: 'Vinegar Spray', description: 'Taste the bitterness of your speech! Spritz 3 sprays of vinegar in your mouth! (administered by your coach)', color: '#10B981', weight: 1, image: DEFAULT_SEGMENT_IMAGES[2] },
-  { id: '4', label: 'Feel the sting of your speech!', description: 'Lift your shirt and your teammates get to smack a ping pong ball on your skin!', color: '#F59E0B', weight: 1, image: DEFAULT_SEGMENT_IMAGES[3] },
+  { id: '4', label: 'Feel the sting of your speech!', description: 'Your coach will choose 1 of your teammates to smack a ping pong ball on your skin!', color: '#F59E0B', weight: 1, image: DEFAULT_SEGMENT_IMAGES[3] },
   { id: '5', label: 'Your language is a mess!', description: 'Shaving cream pie to the face! (administered by your coach!)', color: '#EF4444', weight: 1, image: DEFAULT_SEGMENT_IMAGES[4] },
   { id: '6', label: 'Feel the sting of your words!', description: 'Snap a big rubber band on your wrist', color: '#8B5CF6', weight: 1, image: DEFAULT_SEGMENT_IMAGES[5] },
   { id: '7', label: 'The tongue is set on fire by hell itself!', description: 'Eat 2 Blazing Hot Wings from BW3s!', color: '#EC4899', weight: 1, image: DEFAULT_SEGMENT_IMAGES[6] },
