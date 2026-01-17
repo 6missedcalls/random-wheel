@@ -23,22 +23,32 @@ export function ResultDisplay({ className }: ResultDisplayProps) {
       </div>
 
       <AnimatePresence>
-        {lastResult?.description && (
+        {lastResult && (
           <motion.div
             variants={resultRevealVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
-            className={cn('w-full text-center', className)}
+            className={cn('w-full text-center px-4', className)}
           >
-            <motion.p
+            <motion.h2
               initial={{ y: -10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-lg font-medium"
+              className="text-2xl font-bold"
+              style={{ color: lastResult.color }}
             >
-              {lastResult.description}
-            </motion.p>
+              {lastResult.label}
+            </motion.h2>
+            {lastResult.description && (
+              <motion.p
+                initial={{ y: -10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-lg text-muted-foreground mt-2 max-w-md mx-auto"
+              >
+                {lastResult.description}
+              </motion.p>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
