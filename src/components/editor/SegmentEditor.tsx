@@ -14,6 +14,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ColorPicker } from './ColorPicker';
 import { IconPicker } from './IconPicker';
+import { ImageUpload } from './ImageUpload';
 import { WeightSlider } from './WeightSlider';
 import { AVAILABLE_ICONS } from '@/lib/icons';
 import { useTotalWeight } from '@/store/wheelStore';
@@ -40,6 +41,7 @@ export function SegmentEditor({
   const [weight, setWeight] = useState(1);
   const [description, setDescription] = useState('');
   const [icon, setIcon] = useState<string | undefined>(undefined);
+  const [image, setImage] = useState<string | undefined>(undefined);
 
   // Update form when segment changes
   useEffect(() => {
@@ -49,6 +51,7 @@ export function SegmentEditor({
       setWeight(segment.weight);
       setDescription(segment.description || '');
       setIcon(segment.icon);
+      setImage(segment.image);
     }
   }, [segment]);
 
@@ -62,6 +65,7 @@ export function SegmentEditor({
       weight,
       description: description.trim() || undefined,
       icon,
+      image,
     });
     onClose();
   };
@@ -129,6 +133,9 @@ export function SegmentEditor({
             {/* Icon */}
             <IconPicker value={icon} onChange={setIcon} />
 
+            {/* Custom Image */}
+            <ImageUpload value={image} onChange={setImage} />
+
             {/* Weight */}
             <WeightSlider
               value={weight}
@@ -143,10 +150,14 @@ export function SegmentEditor({
                 className="h-16 rounded-lg flex items-center justify-center gap-2 text-white font-medium shadow-inner"
                 style={{ backgroundColor: color }}
               >
-                {icon && AVAILABLE_ICONS[icon] && (() => {
-                  const IconComponent = AVAILABLE_ICONS[icon];
-                  return <IconComponent className="h-6 w-6" />;
-                })()}
+                {image ? (
+                  <img src={image} alt="" className="h-8 w-8 rounded object-cover" />
+                ) : icon && AVAILABLE_ICONS[icon] ? (
+                  (() => {
+                    const IconComponent = AVAILABLE_ICONS[icon];
+                    return <IconComponent className="h-6 w-6" />;
+                  })()
+                ) : null}
                 {label || 'Preview'}
               </div>
             </div>

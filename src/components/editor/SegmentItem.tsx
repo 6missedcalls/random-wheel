@@ -39,12 +39,20 @@ export function SegmentItem({
         <GripVertical className="h-5 w-5" />
       </div>
 
-      {/* Color indicator */}
-      <div
-        className="h-8 w-8 rounded-full shrink-0 border-2 border-white shadow-sm"
-        style={{ backgroundColor: segment.color }}
-        aria-hidden="true"
-      />
+      {/* Color indicator / Image */}
+      {segment.image ? (
+        <img
+          src={segment.image}
+          alt=""
+          className="h-8 w-8 rounded-full shrink-0 border-2 border-white shadow-sm object-cover"
+        />
+      ) : (
+        <div
+          className="h-8 w-8 rounded-full shrink-0 border-2 border-white shadow-sm"
+          style={{ backgroundColor: segment.color }}
+          aria-hidden="true"
+        />
+      )}
 
       {/* Label and info */}
       <div className="flex-1 min-w-0">

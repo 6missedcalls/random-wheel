@@ -14,6 +14,9 @@ export interface Segment {
   /** Optional Lucide icon name */
   icon?: string;
 
+  /** Optional custom image (base64 data URL) */
+  image?: string;
+
   /** Probability weight (default: 1) */
   weight: number;
 
