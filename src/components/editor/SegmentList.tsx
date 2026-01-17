@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Plus, Shuffle, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { SegmentItem } from './SegmentItem';
 import { SegmentEditor } from './SegmentEditor';
 import { useWheelStore, useSegments, useTotalWeight } from '@/store/wheelStore';
@@ -79,7 +78,7 @@ export function SegmentList({ className }: SegmentListProps) {
       </div>
 
       {/* Segment list */}
-      <ScrollArea className="flex-1 min-h-0 py-4">
+      <div className="flex-1 min-h-0 overflow-y-auto py-4">
         {segments.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
             <p>No segments yet.</p>
@@ -90,7 +89,7 @@ export function SegmentList({ className }: SegmentListProps) {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="space-y-2"
+            className="space-y-2 pr-2"
           >
             <AnimatePresence mode="popLayout">
               {segments.map((segment) => (
@@ -105,7 +104,7 @@ export function SegmentList({ className }: SegmentListProps) {
             </AnimatePresence>
           </motion.div>
         )}
-      </ScrollArea>
+      </div>
 
       {/* Quick actions */}
       {segments.length > 0 && (
