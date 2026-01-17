@@ -73,7 +73,7 @@ const INITIAL_STATE: WheelState = {
   config: DEFAULT_CONFIG,
   isSpinning: false,
   lastResult: null,
-  currentWheelName: 'My Wheel',
+  currentWheelName: 'The Wheel of Misfortune',
   savedWheels: [],
   settings: DEFAULT_SETTINGS,
   history: [],
