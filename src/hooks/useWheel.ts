@@ -142,7 +142,7 @@ export function useWheel({
       itemLabelAlign: 'center',
       itemLabelRadius: 0.85,
       itemLabelRadiusMax: 0.35,
-      rotationSpeedMax: 125,
+      rotationSpeedMax: 200,
       rotationResistance: -35,
       pointerAngle: config.pointerAngle,
       isInteractive: false,
