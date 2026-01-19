@@ -106,8 +106,8 @@ export function useWheel({
       const iconImage = loadedIcons.get(segment.id);
       if (iconImage) {
         item.image = iconImage;
-        item.imageRadius = 0.65;
-        item.imageScale = 0.5;
+        item.imageRadius = 0.72;
+        item.imageScale = 1.0;
         // Calculate rotation so image bottom faces center (top faces outward)
         const segmentMidAngle = index * anglePerSegment + anglePerSegment / 2;
         item.imageRotation = segmentMidAngle + 180;
