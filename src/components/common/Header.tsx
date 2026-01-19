@@ -217,51 +217,6 @@ export function Header({ className }: HeaderProps) {
                       </div>
                     )}
 
-                    {/* Confetti toggle */}
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="confetti-toggle">Confetti Animation</Label>
-                      <Switch
-                        id="confetti-toggle"
-                        checked={settings.showConfetti}
-                        onCheckedChange={(checked) =>
-                          updateSettings({ showConfetti: checked })
-                        }
-                      />
-                    </div>
-
-                    {/* Auto-remove winner */}
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label htmlFor="autoremove-toggle">Auto-Remove Winner</Label>
-                        <p className="text-xs text-muted-foreground">
-                          Remove winning segment after spin
-                        </p>
-                      </div>
-                      <Switch
-                        id="autoremove-toggle"
-                        checked={settings.autoRemoveWinner}
-                        onCheckedChange={(checked) =>
-                          updateSettings({ autoRemoveWinner: checked })
-                        }
-                      />
-                    </div>
-
-                    {/* Reduced motion */}
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label htmlFor="motion-toggle">Reduced Motion</Label>
-                        <p className="text-xs text-muted-foreground">
-                          Minimize animations
-                        </p>
-                      </div>
-                      <Switch
-                        id="motion-toggle"
-                        checked={settings.reducedMotion}
-                        onCheckedChange={(checked) =>
-                          updateSettings({ reducedMotion: checked })
-                        }
-                      />
-                    </div>
                   </div>
                 </div>
               </div>
