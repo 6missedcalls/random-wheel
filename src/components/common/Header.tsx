@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Settings, Download, Moon, Sun, Volume2, VolumeX, FolderOpen, Pencil, Check } from 'lucide-react';
+import { Settings, Download, Moon, Sun, Volume2, VolumeX, FolderOpen, Pencil, Check, Menu } from 'lucide-react';
 import { WheelManager } from '@/components/editor/WheelManager';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -125,16 +125,6 @@ export function Header({ className }: HeaderProps) {
 
         {/* Actions */}
         <div className="flex items-center gap-2">
-          {/* Manage Wheels button */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setIsWheelManagerOpen(true)}
-          >
-            <FolderOpen className="h-4 w-4 mr-1" />
-            <span className="hidden sm:inline">My Wheels</span>
-          </Button>
-
           {/* Install PWA button */}
           {isInstallable && (
             <Button variant="outline" size="sm" onClick={promptInstall}>
@@ -143,112 +133,136 @@ export function Header({ className }: HeaderProps) {
             </Button>
           )}
 
-          {/* Theme toggle */}
-          <Button variant="ghost" size="icon" onClick={toggleTheme}>
-            {settings.theme === 'dark' ? (
-              <Sun className="h-5 w-5" />
-            ) : (
-              <Moon className="h-5 w-5" />
-            )}
-            <span className="sr-only">Toggle theme</span>
-          </Button>
-
-          {/* Settings popover */}
+          {/* Hamburger menu */}
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="ghost" size="icon">
-                <Settings className="h-5 w-5" />
-                <span className="sr-only">Settings</span>
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Menu</span>
               </Button>
             </PopoverTrigger>
             <PopoverContent align="end" className="w-80">
               <div className="space-y-4">
-                <h3 className="font-medium">Settings</h3>
+                {/* My Wheels button */}
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  onClick={() => setIsWheelManagerOpen(true)}
+                >
+                  <FolderOpen className="h-4 w-4 mr-2" />
+                  My Wheels
+                </Button>
 
-                {/* Sound toggle */}
+                {/* Theme toggle */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    {settings.soundEnabled ? (
-                      <Volume2 className="h-4 w-4" />
+                    {settings.theme === 'dark' ? (
+                      <Sun className="h-4 w-4" />
                     ) : (
-                      <VolumeX className="h-4 w-4" />
+                      <Moon className="h-4 w-4" />
                     )}
-                    <Label htmlFor="sound-toggle">Sound Effects</Label>
+                    <Label htmlFor="theme-toggle">Dark Mode</Label>
                   </div>
                   <Switch
-                    id="sound-toggle"
-                    checked={settings.soundEnabled}
-                    onCheckedChange={(checked) =>
-                      updateSettings({ soundEnabled: checked })
-                    }
+                    id="theme-toggle"
+                    checked={settings.theme === 'dark'}
+                    onCheckedChange={toggleTheme}
                   />
                 </div>
 
-                {/* Volume slider */}
-                {settings.soundEnabled && (
-                  <div className="space-y-2">
+                <div className="border-t pt-4">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Settings className="h-4 w-4" />
+                    <h3 className="font-medium">Settings</h3>
+                  </div>
+
+                  {/* Sound toggle */}
+                  <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <Label>Volume</Label>
-                      <span className="text-sm text-muted-foreground">
-                        {Math.round(settings.volume * 100)}%
-                      </span>
+                      <div className="flex items-center gap-2">
+                        {settings.soundEnabled ? (
+                          <Volume2 className="h-4 w-4" />
+                        ) : (
+                          <VolumeX className="h-4 w-4" />
+                        )}
+                        <Label htmlFor="sound-toggle">Sound Effects</Label>
+                      </div>
+                      <Switch
+                        id="sound-toggle"
+                        checked={settings.soundEnabled}
+                        onCheckedChange={(checked) =>
+                          updateSettings({ soundEnabled: checked })
+                        }
+                      />
                     </div>
-                    <Slider
-                      value={[settings.volume]}
-                      onValueChange={([value]) =>
-                        updateSettings({ volume: value })
-                      }
-                      min={0}
-                      max={1}
-                      step={0.1}
-                    />
-                  </div>
-                )}
 
-                {/* Confetti toggle */}
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="confetti-toggle">Confetti Animation</Label>
-                  <Switch
-                    id="confetti-toggle"
-                    checked={settings.showConfetti}
-                    onCheckedChange={(checked) =>
-                      updateSettings({ showConfetti: checked })
-                    }
-                  />
-                </div>
+                    {/* Volume slider */}
+                    {settings.soundEnabled && (
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <Label>Volume</Label>
+                          <span className="text-sm text-muted-foreground">
+                            {Math.round(settings.volume * 100)}%
+                          </span>
+                        </div>
+                        <Slider
+                          value={[settings.volume]}
+                          onValueChange={([value]) =>
+                            updateSettings({ volume: value })
+                          }
+                          min={0}
+                          max={1}
+                          step={0.1}
+                        />
+                      </div>
+                    )}
 
-                {/* Auto-remove winner */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="autoremove-toggle">Auto-Remove Winner</Label>
-                    <p className="text-xs text-muted-foreground">
-                      Remove winning segment after spin
-                    </p>
-                  </div>
-                  <Switch
-                    id="autoremove-toggle"
-                    checked={settings.autoRemoveWinner}
-                    onCheckedChange={(checked) =>
-                      updateSettings({ autoRemoveWinner: checked })
-                    }
-                  />
-                </div>
+                    {/* Confetti toggle */}
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="confetti-toggle">Confetti Animation</Label>
+                      <Switch
+                        id="confetti-toggle"
+                        checked={settings.showConfetti}
+                        onCheckedChange={(checked) =>
+                          updateSettings({ showConfetti: checked })
+                        }
+                      />
+                    </div>
 
-                {/* Reduced motion */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="motion-toggle">Reduced Motion</Label>
-                    <p className="text-xs text-muted-foreground">
-                      Minimize animations
-                    </p>
+                    {/* Auto-remove winner */}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label htmlFor="autoremove-toggle">Auto-Remove Winner</Label>
+                        <p className="text-xs text-muted-foreground">
+                          Remove winning segment after spin
+                        </p>
+                      </div>
+                      <Switch
+                        id="autoremove-toggle"
+                        checked={settings.autoRemoveWinner}
+                        onCheckedChange={(checked) =>
+                          updateSettings({ autoRemoveWinner: checked })
+                        }
+                      />
+                    </div>
+
+                    {/* Reduced motion */}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label htmlFor="motion-toggle">Reduced Motion</Label>
+                        <p className="text-xs text-muted-foreground">
+                          Minimize animations
+                        </p>
+                      </div>
+                      <Switch
+                        id="motion-toggle"
+                        checked={settings.reducedMotion}
+                        onCheckedChange={(checked) =>
+                          updateSettings({ reducedMotion: checked })
+                        }
+                      />
+                    </div>
                   </div>
-                  <Switch
-                    id="motion-toggle"
-                    checked={settings.reducedMotion}
-                    onCheckedChange={(checked) =>
-                      updateSettings({ reducedMotion: checked })
-                    }
-                  />
                 </div>
               </div>
             </PopoverContent>

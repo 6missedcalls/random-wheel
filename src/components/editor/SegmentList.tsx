@@ -4,7 +4,7 @@ import { Plus, Shuffle, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SegmentItem } from './SegmentItem';
 import { SegmentEditor } from './SegmentEditor';
-import { useWheelStore, useSegments, useTotalWeight } from '@/store/wheelStore';
+import { useWheelStore, useSegments } from '@/store/wheelStore';
 import { containerVariants } from '@/lib/animations';
 import { getNextColor, COLOR_PALETTES } from '@/constants/colors';
 import type { Segment } from '@/types';
@@ -16,7 +16,6 @@ interface SegmentListProps {
 
 export function SegmentList({ className }: SegmentListProps) {
   const segments = useSegments();
-  const totalWeight = useTotalWeight();
   const { addSegment, updateSegment, removeSegment, setSegments } = useWheelStore();
 
   const [editingSegment, setEditingSegment] = useState<Segment | null>(null);
@@ -96,7 +95,6 @@ export function SegmentList({ className }: SegmentListProps) {
                 <SegmentItem
                   key={segment.id}
                   segment={segment}
-                  totalWeight={totalWeight}
                   onEdit={handleEditSegment}
                   onDelete={handleDeleteSegment}
                 />

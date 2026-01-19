@@ -5,7 +5,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,10 +12,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ColorPicker } from './ColorPicker';
-import { IconPicker } from './IconPicker';
 import { ImageUpload } from './ImageUpload';
 import { WeightSlider } from './WeightSlider';
-import { AVAILABLE_ICONS } from '@/lib/icons';
 import { useTotalWeight } from '@/store/wheelStore';
 import type { Segment } from '@/types';
 
@@ -40,7 +37,6 @@ export function SegmentEditor({
   const [color, setColor] = useState('#FF6B6B');
   const [weight, setWeight] = useState(1);
   const [description, setDescription] = useState('');
-  const [icon, setIcon] = useState<string | undefined>(undefined);
   const [image, setImage] = useState<string | undefined>(undefined);
 
   // Update form when segment changes
@@ -50,7 +46,6 @@ export function SegmentEditor({
       setColor(segment.color);
       setWeight(segment.weight);
       setDescription(segment.description || '');
-      setIcon(segment.icon);
       setImage(segment.image);
     }
   }, [segment]);
@@ -64,7 +59,6 @@ export function SegmentEditor({
       color,
       weight,
       description: description.trim() || undefined,
-      icon,
       image,
     });
     onClose();
@@ -86,9 +80,6 @@ export function SegmentEditor({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Edit Segment</DialogTitle>
-          <DialogDescription>
-            Customize this wheel segment's appearance and probability.
-          </DialogDescription>
         </DialogHeader>
 
         <ScrollArea className="max-h-[60vh] pr-4">
@@ -103,9 +94,6 @@ export function SegmentEditor({
                 placeholder="Enter segment label"
                 maxLength={50}
               />
-              <p className="text-xs text-muted-foreground text-right">
-                {label.length}/50 characters
-              </p>
             </div>
 
             {/* Description */}
@@ -119,9 +107,6 @@ export function SegmentEditor({
                 maxLength={200}
                 rows={3}
               />
-              <p className="text-xs text-muted-foreground text-right">
-                {description.length}/200 characters
-              </p>
             </div>
 
             {/* Color */}
@@ -129,9 +114,6 @@ export function SegmentEditor({
               <Label>Color</Label>
               <ColorPicker color={color} onChange={setColor} />
             </div>
-
-            {/* Icon */}
-            <IconPicker value={icon} onChange={setIcon} />
 
             {/* Custom Image */}
             <ImageUpload value={image} onChange={setImage} />
@@ -142,25 +124,6 @@ export function SegmentEditor({
               onChange={setWeight}
               totalWeight={adjustedTotalWeight}
             />
-
-            {/* Preview */}
-            <div className="space-y-2">
-              <Label>Preview</Label>
-              <div
-                className="h-16 rounded-lg flex items-center justify-center gap-2 text-white font-medium shadow-inner"
-                style={{ backgroundColor: color }}
-              >
-                {image ? (
-                  <img src={image} alt="" className="h-8 w-8 rounded object-cover" />
-                ) : icon && AVAILABLE_ICONS[icon] ? (
-                  (() => {
-                    const IconComponent = AVAILABLE_ICONS[icon];
-                    return <IconComponent className="h-6 w-6" />;
-                  })()
-                ) : null}
-                {label || 'Preview'}
-              </div>
-            </div>
           </div>
         </ScrollArea>
 

@@ -28,7 +28,7 @@ export function WeightSlider({
       <Slider
         value={[value]}
         onValueChange={([newValue]) => onChange(newValue)}
-        min={1}
+        min={0}
         max={10}
         step={1}
         className="w-full"

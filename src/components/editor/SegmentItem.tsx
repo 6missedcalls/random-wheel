@@ -7,7 +7,6 @@ import type { Segment } from '@/types';
 
 interface SegmentItemProps {
   segment: Segment;
-  totalWeight: number;
   onEdit: (segment: Segment) => void;
   onDelete: (id: string) => void;
   className?: string;
@@ -15,12 +14,10 @@ interface SegmentItemProps {
 
 export function SegmentItem({
   segment,
-  totalWeight,
   onEdit,
   onDelete,
   className,
 }: SegmentItemProps) {
-  const probability = totalWeight > 0 ? ((segment.weight / totalWeight) * 100).toFixed(1) : '0.0';
 
   return (
     <motion.div
@@ -44,22 +41,19 @@ export function SegmentItem({
         <img
           src={segment.image}
           alt=""
-          className="h-8 w-8 rounded-full shrink-0 border-2 border-white shadow-sm object-cover"
+          className="h-8 w-8 rounded-full shrink-0 shadow-sm object-cover"
         />
       ) : (
         <div
-          className="h-8 w-8 rounded-full shrink-0 border-2 border-white shadow-sm"
+          className="h-8 w-8 rounded-full shrink-0 shadow-sm"
           style={{ backgroundColor: segment.color }}
           aria-hidden="true"
         />
       )}
 
-      {/* Label and info */}
+      {/* Label */}
       <div className="flex-1 min-w-0">
         <p className="font-medium truncate">{segment.label}</p>
-        <p className="text-xs text-muted-foreground">
-          Weight: {segment.weight} ({probability}%)
-        </p>
       </div>
 
       {/* Actions */}
