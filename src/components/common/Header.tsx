@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Settings, Download, Moon, Sun, Volume2, VolumeX, FolderOpen, Pencil, Check, Menu } from 'lucide-react';
+import { Download, Moon, Sun, Volume2, VolumeX, FolderOpen, Pencil, Check, Menu } from 'lucide-react';
 import { WheelManager } from '@/components/editor/WheelManager';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -144,14 +144,13 @@ export function Header({ className }: HeaderProps) {
             <PopoverContent align="end" className="w-80">
               <div className="space-y-4">
                 {/* My Wheels button */}
-                <Button
-                  variant="outline"
-                  className="w-full justify-start"
+                <button
+                  className="flex items-center gap-2 w-full hover:opacity-70 transition-opacity"
                   onClick={() => setIsWheelManagerOpen(true)}
                 >
-                  <FolderOpen className="h-4 w-4 mr-2" />
-                  My Wheels
-                </Button>
+                  <FolderOpen className="h-4 w-4" />
+                  <Label className="cursor-pointer">My Wheels</Label>
+                </button>
 
                 {/* Theme toggle */}
                 <div className="flex items-center justify-between">
@@ -170,12 +169,7 @@ export function Header({ className }: HeaderProps) {
                   />
                 </div>
 
-                <div className="border-t pt-4">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Settings className="h-4 w-4" />
-                    <h3 className="font-medium">Settings</h3>
-                  </div>
-
+                <div>
                   {/* Sound toggle */}
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
