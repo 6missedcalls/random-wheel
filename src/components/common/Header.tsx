@@ -91,7 +91,7 @@ export function Header({ className }: HeaderProps) {
     >
       <div className="container flex h-14 items-center justify-between">
         {/* Logo and Wheel Name */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 min-w-0 flex-1">
           <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shrink-0">
             <span className="text-primary-foreground font-bold text-sm">W</span>
           </div>
@@ -113,9 +113,9 @@ export function Header({ className }: HeaderProps) {
           ) : (
             <button
               onClick={startEditing}
-              className="group flex items-center gap-1 hover:bg-accent rounded px-1 py-0.5 transition-colors"
+              className="group flex items-center gap-1 hover:bg-accent rounded px-1 py-0.5 transition-colors min-w-0"
             >
-              <h1 className="font-bold text-lg hidden sm:block truncate max-w-[200px]">
+              <h1 className="font-bold text-lg hidden sm:block truncate">
                 {currentWheelName}
               </h1>
               <Pencil className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity hidden sm:block" />
@@ -124,7 +124,7 @@ export function Header({ className }: HeaderProps) {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           {/* Install PWA button */}
           {isInstallable && (
             <Button variant="outline" size="sm" onClick={promptInstall}>

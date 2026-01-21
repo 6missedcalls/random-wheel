@@ -75,17 +75,11 @@ function App() {
 
           {/* Editor Section */}
           <div className="w-full">
-            <SegmentList className="max-h-[400px]" />
+            <SegmentList />
           </div>
         </motion.div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t py-4 text-center text-sm text-muted-foreground">
-        <p>
-          The Wheel of Misfortune - A free, offline-first spinning wheel
-        </p>
-      </footer>
     </div>
   );
 }

@@ -68,13 +68,22 @@ interface WheelActions {
 
 type WheelStore = WheelState & WheelActions;
 
+const DEFAULT_WHEEL: SavedWheel = {
+  id: 'default-wheel-of-misfortune',
+  name: 'The Wheel of Misfortune',
+  segments: DEFAULT_SEGMENTS,
+  config: DEFAULT_CONFIG,
+  createdAt: '2024-01-01T00:00:00.000Z',
+  updatedAt: '2024-01-01T00:00:00.000Z',
+};
+
 const INITIAL_STATE: WheelState = {
   segments: DEFAULT_SEGMENTS,
   config: DEFAULT_CONFIG,
   isSpinning: false,
   lastResult: null,
   currentWheelName: 'The Wheel of Misfortune',
-  savedWheels: [],
+  savedWheels: [DEFAULT_WHEEL],
   settings: DEFAULT_SETTINGS,
   history: [],
 };
@@ -210,6 +219,7 @@ export const useWheelStore = create<WheelStore>()(
     })),
     {
       name: 'random-wheel-storage',
+      version: 1,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         segments: state.segments,
@@ -219,6 +229,24 @@ export const useWheelStore = create<WheelStore>()(
         settings: state.settings,
         history: state.history,
       }),
+      migrate: (persistedState, version) => {
+        const state = persistedState as Partial<WheelState>;
+
+        // Migration from version 0 (or no version) to version 1:
+        // Add the default "Wheel of Misfortune" to saved wheels if it doesn't exist
+        if (version < 1) {
+          const savedWheels = state.savedWheels || [];
+          const hasDefaultWheel = savedWheels.some(
+            (w) => w.id === DEFAULT_WHEEL.id
+          );
+
+          if (!hasDefaultWheel) {
+            state.savedWheels = [DEFAULT_WHEEL, ...savedWheels];
+          }
+        }
+
+        return state as WheelState;
+      },
     }
   )
 );
