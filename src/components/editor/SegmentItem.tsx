@@ -1,7 +1,8 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Pencil, Trash2, GripVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { segmentItemVariants } from '@/lib/animations';
 import { cn } from '@/lib/utils';
 import { getImageCounterRotation } from '@/constants/segmentImages';
@@ -12,6 +13,7 @@ interface SegmentItemProps {
   onEdit: (segment: Segment) => void;
   onDelete: (id: string) => void;
   onImageChange: (id: string, image: string | undefined) => void;
+  onNameChange: (id: string, name: string) => void;
   className?: string;
 }
 
@@ -20,9 +22,45 @@ export function SegmentItem({
   onEdit,
   onDelete,
   onImageChange,
+  onNameChange,
   className,
 }: SegmentItemProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editedName, setEditedName] = useState(segment.label);
+
+  // Sync edited name when segment changes
+  useEffect(() => {
+    setEditedName(segment.label);
+  }, [segment.label]);
+
+  // Focus input when entering edit mode
+  useEffect(() => {
+    if (isEditingName && nameInputRef.current) {
+      nameInputRef.current.focus();
+      nameInputRef.current.select();
+    }
+  }, [isEditingName]);
+
+  const handleNameSave = () => {
+    const trimmedName = editedName.trim();
+    if (trimmedName && trimmedName !== segment.label) {
+      onNameChange(segment.id, trimmedName);
+    } else {
+      setEditedName(segment.label);
+    }
+    setIsEditingName(false);
+  };
+
+  const handleNameKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleNameSave();
+    } else if (e.key === 'Escape') {
+      setEditedName(segment.label);
+      setIsEditingName(false);
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -131,9 +169,28 @@ export function SegmentItem({
         className="hidden"
       />
 
-      {/* Label */}
+      {/* Label - click to edit inline */}
       <div className="flex-1 min-w-0">
-        <p className="font-medium truncate">{segment.label}</p>
+        {isEditingName ? (
+          <Input
+            ref={nameInputRef}
+            value={editedName}
+            onChange={(e) => setEditedName(e.target.value)}
+            onBlur={handleNameSave}
+            onKeyDown={handleNameKeyDown}
+            className="h-7 text-sm font-medium"
+            maxLength={50}
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => setIsEditingName(true)}
+            className="w-full text-left font-medium truncate hover:text-primary transition-colors"
+            title="Click to edit name"
+          >
+            {segment.label}
+          </button>
+        )}
       </div>
 
       {/* Actions */}

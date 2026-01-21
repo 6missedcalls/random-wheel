@@ -66,6 +66,10 @@ export function SegmentList({ className }: SegmentListProps) {
     updateSegment(id, { image });
   };
 
+  const handleNameChange = (id: string, label: string) => {
+    updateSegment(id, { label });
+  };
+
   const handleClearAll = () => {
     if (window.confirm('Are you sure you want to remove all segments?')) {
       setSegments([]);
@@ -131,6 +135,7 @@ export function SegmentList({ className }: SegmentListProps) {
                         onEdit={handleEditSegment}
                         onDelete={handleDeleteSegment}
                         onImageChange={handleImageChange}
+                        onNameChange={handleNameChange}
                       />
                     ))}
                   </AnimatePresence>
