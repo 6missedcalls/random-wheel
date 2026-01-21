@@ -5,12 +5,16 @@ import { OfflineIndicator } from '@/components/common/OfflineIndicator';
 import { WheelContainer } from '@/components/wheel/WheelContainer';
 import { SegmentList } from '@/components/editor/SegmentList';
 import { useSettings, useLastResult, useWheelStore } from '@/store/wheelStore';
+import { useAudioUnlock } from '@/hooks/useAudioUnlock';
 import { containerVariants } from '@/lib/animations';
 
 function App() {
   const settings = useSettings();
   const lastResult = useLastResult();
   const { removeSegment } = useWheelStore();
+
+  // Unlock audio on first user interaction
+  useAudioUnlock();
 
   // Apply theme on mount and when it changes
   useEffect(() => {
