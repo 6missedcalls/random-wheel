@@ -38,24 +38,8 @@ export function SegmentList({ className }: SegmentListProps) {
     setIsEditorOpen(true);
   };
 
-  const handleSaveSegment = (segment: Segment, percentage: number) => {
-    // Update the edited segment with its new percentage as weight
-    // Then redistribute the remaining percentage evenly among other segments
-    const otherSegments = segments.filter(s => s.id !== segment.id);
-    const remainingPercentage = 100 - percentage;
-    const perSegmentShare = otherSegments.length > 0
-      ? remainingPercentage / otherSegments.length
-      : 0;
-
-    // Update all segments with new weights (using percentage values)
-    const updatedSegments = segments.map(s => {
-      if (s.id === segment.id) {
-        return { ...segment, weight: percentage };
-      }
-      return { ...s, weight: perSegmentShare };
-    });
-
-    setSegments(updatedSegments);
+  const handleSaveSegment = (segment: Segment) => {
+    updateSegment(segment.id, segment);
   };
 
   const handleDeleteSegment = (id: string) => {
