@@ -14,14 +14,14 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { ColorPicker } from './ColorPicker';
 import { ImageUpload } from './ImageUpload';
 import { WeightSlider } from './WeightSlider';
-import { useTotalWeight } from '@/store/wheelStore';
+import { useTotalWeight, useSegments } from '@/store/wheelStore';
 import type { Segment } from '@/types';
 
 interface SegmentEditorProps {
   segment: Segment | null;
   isOpen: boolean;
   onClose: () => void;
-  onSave: (segment: Segment) => void;
+  onSave: (segment: Segment, percentage: number) => void;
   onDelete?: (id: string) => void;
 }
 
@@ -33,22 +33,25 @@ export function SegmentEditor({
   onDelete,
 }: SegmentEditorProps) {
   const totalWeight = useTotalWeight();
+  const segments = useSegments();
   const [label, setLabel] = useState('');
   const [color, setColor] = useState('#FF6B6B');
-  const [weight, setWeight] = useState(1);
+  const [percentage, setPercentage] = useState(10);
   const [description, setDescription] = useState('');
   const [image, setImage] = useState<string | undefined>(undefined);
 
   // Update form when segment changes
   useEffect(() => {
-    if (segment) {
+    if (segment && totalWeight > 0) {
       setLabel(segment.label);
       setColor(segment.color);
-      setWeight(segment.weight);
+      // Calculate current percentage from weight
+      const currentPercentage = Math.round((segment.weight / totalWeight) * 100);
+      setPercentage(Math.max(1, Math.min(99, currentPercentage)));
       setDescription(segment.description || '');
       setImage(segment.image);
     }
-  }, [segment]);
+  }, [segment, totalWeight]);
 
   const handleSave = () => {
     if (!segment || !label.trim()) return;
@@ -57,10 +60,10 @@ export function SegmentEditor({
       ...segment,
       label: label.trim(),
       color,
-      weight,
+      weight: percentage, // Store percentage as weight temporarily, will be recalculated
       description: description.trim() || undefined,
       image,
-    });
+    }, percentage);
     onClose();
   };
 
@@ -70,10 +73,7 @@ export function SegmentEditor({
     onClose();
   };
 
-  // Calculate weight including this segment's change
-  const adjustedTotalWeight = segment
-    ? totalWeight - segment.weight + weight
-    : totalWeight + weight;
+  const otherSegmentsCount = segment ? segments.length - 1 : segments.length;
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -84,14 +84,14 @@ export function SegmentEditor({
 
         <ScrollArea className="max-h-[60vh] pr-4">
           <div className="space-y-6 py-4">
-            {/* Label */}
+            {/* Name */}
             <div className="space-y-2">
-              <Label htmlFor="segment-label">Label</Label>
+              <Label htmlFor="segment-name">Name</Label>
               <Input
-                id="segment-label"
+                id="segment-name"
                 value={label}
                 onChange={(e) => setLabel(e.target.value)}
-                placeholder="Enter segment label"
+                placeholder="Enter segment name"
                 maxLength={50}
               />
             </div>
@@ -118,11 +118,11 @@ export function SegmentEditor({
             {/* Custom Image */}
             <ImageUpload value={image} onChange={setImage} />
 
-            {/* Weight */}
+            {/* Chance */}
             <WeightSlider
-              value={weight}
-              onChange={setWeight}
-              totalWeight={adjustedTotalWeight}
+              value={percentage}
+              onChange={setPercentage}
+              otherSegmentsCount={otherSegmentsCount}
             />
           </div>
         </ScrollArea>

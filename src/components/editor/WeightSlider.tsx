@@ -5,36 +5,37 @@ import { cn } from '@/lib/utils';
 interface WeightSliderProps {
   value: number;
   onChange: (value: number) => void;
-  totalWeight: number;
+  otherSegmentsCount: number;
   className?: string;
 }
 
 export function WeightSlider({
   value,
   onChange,
-  totalWeight,
+  otherSegmentsCount,
   className,
 }: WeightSliderProps) {
-  const probability = totalWeight > 0 ? ((value / totalWeight) * 100).toFixed(1) : '0.0';
+  // Calculate max percentage (leave at least 1% for each other segment)
+  const maxPercentage = otherSegmentsCount > 0 ? 100 - otherSegmentsCount : 99;
 
   return (
     <div className={cn('space-y-2', className)}>
       <div className="flex items-center justify-between">
-        <Label>Weight</Label>
+        <Label>Chance</Label>
         <span className="text-sm text-muted-foreground">
-          {value} ({probability}% chance)
+          {value}%
         </span>
       </div>
       <Slider
         value={[value]}
         onValueChange={([newValue]) => onChange(newValue)}
-        min={0}
-        max={10}
+        min={1}
+        max={maxPercentage}
         step={1}
         className="w-full"
       />
       <p className="text-xs text-muted-foreground">
-        Higher weight = more likely to be selected
+        Other segments will share the remaining {100 - value}% evenly
       </p>
     </div>
   );

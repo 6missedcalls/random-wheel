@@ -79,7 +79,7 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
 
   return (
     <div className="space-y-2">
-      <Label>Custom Image (optional)</Label>
+      <Label>Image</Label>
       <div className="flex items-center gap-3">
         {value ? (
           <div className="relative">
