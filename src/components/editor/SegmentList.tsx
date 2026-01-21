@@ -46,6 +46,10 @@ export function SegmentList({ className }: SegmentListProps) {
     removeSegment(id);
   };
 
+  const handleImageChange = (id: string, image: string | undefined) => {
+    updateSegment(id, { image });
+  };
+
   const handleRandomizeColors = () => {
     const palette = COLOR_PALETTES.vibrant;
     const updatedSegments = segments.map((segment, index) => ({
@@ -75,12 +79,7 @@ export function SegmentList({ className }: SegmentListProps) {
               isCollapsed && '-rotate-90'
             )}
           />
-          <div>
-            <h2 className="text-lg font-semibold">Segments</h2>
-            <p className="text-sm text-muted-foreground">
-              {segments.length} item{segments.length !== 1 ? 's' : ''}
-            </p>
-          </div>
+          <h2 className="text-lg font-semibold">Segments</h2>
         </div>
         <span
           onClick={(e) => {
@@ -124,6 +123,7 @@ export function SegmentList({ className }: SegmentListProps) {
                         segment={segment}
                         onEdit={handleEditSegment}
                         onDelete={handleDeleteSegment}
+                        onImageChange={handleImageChange}
                       />
                     ))}
                   </AnimatePresence>

@@ -43,3 +43,20 @@ export const DEFAULT_SEGMENT_IMAGES = [
   MERCY_CROSS_SVG,
   DUCK_SVG,
 ];
+
+// Map of image URLs to their baked-in rotations (for counter-rotation in list view)
+export const IMAGE_ROTATIONS: Record<string, number> = {
+  [ICE_BUCKET_SVG]: 90,
+  [SPRAY_BOTTLE_SVG]: 90,
+  [PING_PONG_SVG]: 20,
+  [FLAME_SVG]: 340,
+  [MERCY_CROSS_SVG]: 270,
+  [DUCK_SVG]: 200,
+};
+
+// Get counter-rotation for displaying image upright in list view
+export function getImageCounterRotation(imageUrl: string | undefined): number {
+  if (!imageUrl) return 0;
+  const rotation = IMAGE_ROTATIONS[imageUrl];
+  return rotation ? -rotation : 0;
+}
