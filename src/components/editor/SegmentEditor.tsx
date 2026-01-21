@@ -118,7 +118,7 @@ export function SegmentEditor({
             {/* Custom Image */}
             <ImageUpload value={image} onChange={setImage} />
 
-            {/* Weight */}
+            {/* Odds */}
             <WeightSlider
               value={weight}
               onChange={setWeight}

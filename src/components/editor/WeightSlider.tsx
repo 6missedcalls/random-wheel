@@ -20,7 +20,7 @@ export function WeightSlider({
   return (
     <div className={cn('space-y-2', className)}>
       <div className="flex items-center justify-between">
-        <Label>Weight</Label>
+        <Label>Odds</Label>
         <span className="text-sm text-muted-foreground">
           {value} ({probability}% chance)
         </span>
@@ -34,7 +34,7 @@ export function WeightSlider({
         className="w-full"
       />
       <p className="text-xs text-muted-foreground">
-        Higher weight = more likely to be selected
+        Higher odds = more likely to be selected
       </p>
     </div>
   );

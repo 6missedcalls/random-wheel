@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { Download, Moon, Sun, Volume2, VolumeX, FolderOpen, Pencil, Check, Menu } from 'lucide-react';
+import { Download, Moon, Sun, Volume2, VolumeX, FolderOpen, Pencil, Check, Menu, Percent } from 'lucide-react';
 import { WheelManager } from '@/components/editor/WheelManager';
+import { OddsEditor } from '@/components/editor/OddsEditor';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -25,6 +26,7 @@ export function Header({ className }: HeaderProps) {
   const currentWheelName = useCurrentWheelName();
   const { updateSettings, setCurrentWheelName } = useWheelStore();
   const [isWheelManagerOpen, setIsWheelManagerOpen] = useState(false);
+  const [isOddsEditorOpen, setIsOddsEditorOpen] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [editingName, setEditingName] = useState(currentWheelName);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -152,6 +154,15 @@ export function Header({ className }: HeaderProps) {
                   <Label className="cursor-pointer">My Wheels</Label>
                 </button>
 
+                {/* Change Odds button */}
+                <button
+                  className="flex items-center gap-2 w-full hover:opacity-70 transition-opacity"
+                  onClick={() => setIsOddsEditorOpen(true)}
+                >
+                  <Percent className="h-4 w-4" />
+                  <Label className="cursor-pointer">Change Odds</Label>
+                </button>
+
                 {/* Theme toggle */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -223,6 +234,12 @@ export function Header({ className }: HeaderProps) {
       <WheelManager
         isOpen={isWheelManagerOpen}
         onClose={() => setIsWheelManagerOpen(false)}
+      />
+
+      {/* Odds Editor Dialog */}
+      <OddsEditor
+        isOpen={isOddsEditorOpen}
+        onClose={() => setIsOddsEditorOpen(false)}
       />
     </header>
   );
