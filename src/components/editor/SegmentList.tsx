@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Plus, Shuffle, Trash2, ChevronDown } from 'lucide-react';
+import { Plus, Trash2, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SegmentItem } from './SegmentItem';
 import { SegmentEditor } from './SegmentEditor';
 import { useWheelStore, useSegments } from '@/store/wheelStore';
 import { containerVariants } from '@/lib/animations';
-import { getNextColor, COLOR_PALETTES } from '@/constants/colors';
+import { getNextColor } from '@/constants/colors';
 import type { Segment } from '@/types';
 import { cn } from '@/lib/utils';
 
@@ -48,15 +48,6 @@ export function SegmentList({ className }: SegmentListProps) {
 
   const handleImageChange = (id: string, image: string | undefined) => {
     updateSegment(id, { image });
-  };
-
-  const handleRandomizeColors = () => {
-    const palette = COLOR_PALETTES.vibrant;
-    const updatedSegments = segments.map((segment, index) => ({
-      ...segment,
-      color: palette[index % palette.length],
-    }));
-    setSegments(updatedSegments);
   };
 
   const handleClearAll = () => {
@@ -133,16 +124,7 @@ export function SegmentList({ className }: SegmentListProps) {
 
             {/* Quick actions */}
             {segments.length > 0 && (
-              <div className="flex gap-2 pt-4 border-t">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleRandomizeColors}
-                  className="flex-1"
-                >
-                  <Shuffle className="h-4 w-4 mr-1" />
-                  Randomize Colors
-                </Button>
+              <div className="flex gap-2 pt-4 border-t justify-end">
                 <Button
                   variant="outline"
                   size="sm"
