@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, Lock, Unlock } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -24,6 +24,7 @@ interface SegmentOdds {
   label: string;
   color: string;
   percentage: number;
+  isLocked?: boolean;
   isNew?: boolean;
 }
 
@@ -59,8 +60,59 @@ export function OddsEditor({ isOpen, onClose }: OddsEditorProps) {
   const isValid = totalPercentage === 100;
 
   const handlePercentageChange = (id: string, newPercentage: number) => {
+    setOdds(prev => {
+      const current = prev.find(o => o.id === id);
+      if (!current) return prev;
+
+      const oldPercentage = current.percentage;
+      const difference = newPercentage - oldPercentage;
+
+      // Get unlocked segments (excluding the one being changed)
+      const unlockedOthers = prev.filter(o => o.id !== id && !o.isLocked);
+
+      if (unlockedOthers.length === 0) {
+        // No unlocked segments to adjust, just update the current one
+        return prev.map(o =>
+          o.id === id ? { ...o, percentage: newPercentage } : o
+        );
+      }
+
+      // Calculate total percentage of unlocked segments
+      const unlockedTotal = unlockedOthers.reduce((sum, o) => sum + o.percentage, 0);
+
+      if (unlockedTotal === 0 && difference !== 0) {
+        // All other unlocked segments are at 0, distribute evenly
+        const perSegment = Math.abs(difference) / unlockedOthers.length;
+        return prev.map(o => {
+          if (o.id === id) {
+            return { ...o, percentage: newPercentage };
+          }
+          if (!o.isLocked && o.id !== id) {
+            return { ...o, percentage: Math.max(0, Math.round(perSegment)) };
+          }
+          return o;
+        });
+      }
+
+      // Distribute the difference proportionally among unlocked segments
+      return prev.map(o => {
+        if (o.id === id) {
+          return { ...o, percentage: newPercentage };
+        }
+        if (!o.isLocked && o.id !== id) {
+          const proportion = o.percentage / unlockedTotal;
+          const adjustment = Math.round(difference * proportion);
+          const newValue = Math.max(0, Math.min(100, o.percentage - adjustment));
+          return { ...o, percentage: newValue };
+        }
+        return o;
+      });
+    });
+  };
+
+  const toggleLock = (id: string) => {
     setOdds(prev => prev.map(o =>
-      o.id === id ? { ...o, percentage: newPercentage } : o
+      o.id === id ? { ...o, isLocked: !o.isLocked } : o
     ));
   };
 
@@ -127,20 +179,33 @@ export function OddsEditor({ isOpen, onClose }: OddsEditorProps) {
             <div className="space-y-4">
               {odds.map((item) => (
                 <div key={item.id} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 flex-1 min-w-0">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => toggleLock(item.id)}
+                        className="h-6 w-6 p-0 shrink-0"
+                        title={item.isLocked ? 'Unlock' : 'Lock'}
+                      >
+                        {item.isLocked ? (
+                          <Lock className="h-3 w-3" />
+                        ) : (
+                          <Unlock className="h-3 w-3 opacity-50" />
+                        )}
+                      </Button>
                       <div
                         className="h-4 w-4 rounded-full shrink-0"
                         style={{ backgroundColor: item.color }}
                       />
-                      <span className="text-sm font-medium truncate max-w-[200px]">
+                      <span className="text-sm font-medium truncate">
                         {item.label}
                       </span>
                       {item.isNew && (
                         <span className="text-xs text-muted-foreground">(new)</span>
                       )}
                     </div>
-                    <span className="text-sm font-medium tabular-nums w-12 text-right">
+                    <span className="text-sm font-medium tabular-nums w-12 text-right shrink-0">
                       {item.percentage}%
                     </span>
                   </div>
@@ -151,6 +216,7 @@ export function OddsEditor({ isOpen, onClose }: OddsEditorProps) {
                     max={100}
                     step={1}
                     className="w-full"
+                    disabled={item.isLocked}
                   />
                 </div>
               ))}
