@@ -5,7 +5,7 @@ import { CommitDialog } from '@/components/admin/CommitDialog';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Download, Upload, Save, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { Download, Save, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { useGitHubAuth } from '@/hooks/useGitHubAuth';
 import { createGitHubService } from '@/services/github';
 import { parseDefaultSegments, generateDefaultsFile } from '@/lib/defaultsParser';

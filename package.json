@@ -21,6 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "@octokit/rest": "^21.0.2",
+    "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.7",
