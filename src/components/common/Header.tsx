@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { Download, Moon, Sun, Volume2, VolumeX, FolderOpen, Pencil, Check, Menu, Percent } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Download, Moon, Sun, Volume2, VolumeX, FolderOpen, Pencil, Check, Menu, Percent, Settings } from 'lucide-react';
 import { WheelManager } from '@/components/editor/WheelManager';
 import { OddsEditor } from '@/components/editor/OddsEditor';
 import { Button } from '@/components/ui/button';
@@ -162,6 +163,15 @@ export function Header({ className }: HeaderProps) {
                   <Percent className="h-4 w-4" />
                   <Label className="cursor-pointer">Change Odds</Label>
                 </button>
+
+                {/* Admin link */}
+                <Link
+                  to="/admin"
+                  className="flex items-center gap-2 w-full hover:opacity-70 transition-opacity"
+                >
+                  <Settings className="h-4 w-4" />
+                  <Label className="cursor-pointer">Admin</Label>
+                </Link>
 
                 {/* Theme toggle */}
                 <div className="flex items-center justify-between">
