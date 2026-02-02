@@ -1,17 +1,14 @@
 import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { Routes, Route } from 'react-router-dom';
 import { Header } from '@/components/common/Header';
 import { OfflineIndicator } from '@/components/common/OfflineIndicator';
-import { WheelContainer } from '@/components/wheel/WheelContainer';
-import { SegmentList } from '@/components/editor/SegmentList';
-import { useSettings, useLastResult, useWheelStore } from '@/store/wheelStore';
+import { HomePage } from '@/routes/HomePage';
+import { AdminPage } from '@/routes/AdminPage';
+import { useSettings } from '@/store/wheelStore';
 import { useAudioUnlock } from '@/hooks/useAudioUnlock';
-import { containerVariants } from '@/lib/animations';
 
 function App() {
   const settings = useSettings();
-  const lastResult = useLastResult();
-  const { removeSegment } = useWheelStore();
 
   // Unlock audio on first user interaction
   useAudioUnlock();
@@ -48,42 +45,17 @@ function App() {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [settings.theme]);
 
-  // Auto-remove winner functionality
-  useEffect(() => {
-    if (settings.autoRemoveWinner && lastResult) {
-      // Small delay to let the user see the result
-      const timer = setTimeout(() => {
-        removeSegment(lastResult.id);
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [lastResult, settings.autoRemoveWinner, removeSegment]);
-
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <OfflineIndicator />
 
       <main className="flex-1 container py-6">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col items-center gap-8 max-w-xl mx-auto"
-        >
-          {/* Wheel Section */}
-          <div className="w-full flex flex-col items-center">
-            <WheelContainer />
-          </div>
-
-          {/* Editor Section */}
-          <div className="w-full">
-            <SegmentList />
-          </div>
-        </motion.div>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/admin" element={<AdminPage />} />
+        </Routes>
       </main>
-
     </div>
   );
 }
