@@ -15,12 +15,12 @@ export function WheelContainer({ className }: WheelContainerProps) {
   const wheelRef = useRef<WheelCanvasHandle>(null);
   const settings = useSettings();
 
-  const [playTick] = useSound('/sounds/tick.mp3', {
+  const [playTick] = useSound(`${import.meta.env.BASE_URL}sounds/tick.mp3`, {
     volume: settings.volume * 0.3,
     playbackRate: 1.2,
   });
 
-  const [playWin] = useSound('/sounds/win.mp3', {
+  const [playWin] = useSound(`${import.meta.env.BASE_URL}sounds/win.mp3`, {
     volume: settings.volume,
   });
 

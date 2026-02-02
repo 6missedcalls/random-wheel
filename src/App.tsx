@@ -5,12 +5,16 @@ import { OfflineIndicator } from '@/components/common/OfflineIndicator';
 import { WheelContainer } from '@/components/wheel/WheelContainer';
 import { SegmentList } from '@/components/editor/SegmentList';
 import { useSettings, useLastResult, useWheelStore } from '@/store/wheelStore';
+import { useAudioUnlock } from '@/hooks/useAudioUnlock';
 import { containerVariants } from '@/lib/animations';
 
 function App() {
   const settings = useSettings();
   const lastResult = useLastResult();
   const { removeSegment } = useWheelStore();
+
+  // Unlock audio on first user interaction
+  useAudioUnlock();
 
   // Apply theme on mount and when it changes
   useEffect(() => {
@@ -75,17 +79,11 @@ function App() {
 
           {/* Editor Section */}
           <div className="w-full">
-            <SegmentList className="max-h-[400px]" />
+            <SegmentList />
           </div>
         </motion.div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t py-4 text-center text-sm text-muted-foreground">
-        <p>
-          The Wheel of Misfortune - A free, offline-first spinning wheel
-        </p>
-      </footer>
     </div>
   );
 }
