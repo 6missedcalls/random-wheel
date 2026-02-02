@@ -54,6 +54,7 @@ interface WheelActions {
   deleteWheel: (id: string) => void;
   renameWheel: (id: string, name: string) => void;
   duplicateWheel: (id: string) => string;
+  createNewWheel: () => void;
 
   // Settings Actions
   updateSettings: (settings: Partial<AppSettings>) => void;
@@ -195,6 +196,13 @@ export const useWheelStore = create<WheelStore>()(
         });
         return newId;
       },
+
+      createNewWheel: () => set((state) => {
+        state.segments = [...DEFAULT_SEGMENTS];
+        state.config = { ...DEFAULT_CONFIG };
+        state.currentWheelName = 'New Wheel';
+        state.lastResult = null;
+      }),
 
       // Settings Actions
       updateSettings: (settings) => set((state) => {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Save, FolderOpen, Trash2, Copy, Pencil, Check, X } from 'lucide-react';
+import { Save, FolderOpen, Trash2, Copy, Pencil, Check, X, PlusCircle } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -23,7 +23,7 @@ interface WheelManagerProps {
 export function WheelManager({ isOpen, onClose }: WheelManagerProps) {
   const savedWheels = useSavedWheels();
   const segments = useSegments();
-  const { saveCurrentWheel, loadWheel, deleteWheel, renameWheel, duplicateWheel } = useWheelStore();
+  const { saveCurrentWheel, loadWheel, deleteWheel, renameWheel, duplicateWheel, createNewWheel } = useWheelStore();
 
   const [newWheelName, setNewWheelName] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -48,6 +48,11 @@ export function WheelManager({ isOpen, onClose }: WheelManagerProps) {
 
   const handleDuplicate = (id: string) => {
     duplicateWheel(id);
+  };
+
+  const handleCreateNew = () => {
+    createNewWheel();
+    onClose();
   };
 
   const startEditing = (id: string, currentName: string) => {
@@ -88,6 +93,16 @@ export function WheelManager({ isOpen, onClose }: WheelManagerProps) {
         </DialogHeader>
 
         <div className="space-y-4 py-4">
+          {/* Create new wheel button */}
+          <Button
+            onClick={handleCreateNew}
+            variant="outline"
+            className="w-full"
+          >
+            <PlusCircle className="h-4 w-4 mr-2" />
+            Create New Wheel
+          </Button>
+
           {/* Save current wheel section */}
           {!showSaveForm ? (
             <Button
