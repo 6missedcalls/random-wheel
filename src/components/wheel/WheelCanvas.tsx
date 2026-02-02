@@ -8,6 +8,7 @@ export interface WheelCanvasHandle {
   spin: () => void;
   spinToSegment: (segmentId: string) => void;
   stop: () => void;
+  getRotation: () => number;
 }
 
 interface WheelCanvasProps {
@@ -49,7 +50,7 @@ export const WheelCanvas = forwardRef<WheelCanvasHandle, WheelCanvasProps>(
       }
     }, [settings.soundEnabled, onTickSound]);
 
-    const { containerRef, spin, spinToSegment, stop, isReady } = useWheel({
+    const { containerRef, spin, spinToSegment, stop, isReady, wheelRef } = useWheel({
       segments,
       config,
       onSpinStart: handleSpinStart,
@@ -62,6 +63,7 @@ export const WheelCanvas = forwardRef<WheelCanvasHandle, WheelCanvasProps>(
       spin,
       spinToSegment,
       stop,
+      getRotation: () => wheelRef.current?.rotation ?? 0,
     }));
 
     if (segments.length < 2) {

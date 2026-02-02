@@ -18,6 +18,7 @@ interface UseWheelReturn {
   spinToSegment: (segmentId: string) => void;
   stop: () => void;
   isReady: boolean;
+  wheelRef: React.MutableRefObject<Wheel | null>;
 }
 
 export function useWheel({
@@ -224,5 +225,6 @@ export function useWheel({
     spinToSegment,
     stop,
     isReady,
+    wheelRef,
   };
 }
