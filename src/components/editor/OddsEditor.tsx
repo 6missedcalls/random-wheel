@@ -30,7 +30,7 @@ interface SegmentOdds {
 export function OddsEditor({ isOpen, onClose }: OddsEditorProps) {
   const segments = useSegments();
   const totalWeight = useTotalWeight();
-  const { setSegments, addSegment } = useWheelStore();
+  const { setSegments } = useWheelStore();
   const [odds, setOdds] = useState<SegmentOdds[]>([]);
 
   // Initialize odds from segments when modal opens
